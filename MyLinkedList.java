@@ -1,6 +1,5 @@
 package Grind75;
 
-import LinkedList.LL;
 
 public class MyLinkedList {
     private Node head;
