@@ -1,44 +1,44 @@
 package Grind75;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 
 public class RelativeSortArray {
     public int[] relativeSortArray(int[] arr1, int[] arr2) {
-        ArrayList<Integer> arr = new ArrayList<>();
-        HashMap<Integer,Integer> map = new HashMap<>();
-        for (int num : arr2){
-            map.put(num , 0);
+        Map<Integer, Integer> freq = new HashMap<>();
+        List<Integer> leftover = new ArrayList<>();
+
+        // Initialize map keys for arr2 elements with 0 count.
+        for (int num : arr2) {
+            freq.put(num, 0);
         }
-        for (int i = 0; i < arr1.length; i++) {
-            if (map.containsKey(arr1[i])){
-                map.put(arr1[i],map.get(arr1[i])+1);
-            }else{
-                arr.add(arr1[i]);
+
+        // Count arr1 elements: if in arr2  , count in map; else add to leftover.
+        for (int num : arr1) {
+            if (freq.containsKey(num)) {
+                freq.put(num, freq.get(num) + 1);
+            } else {
+                leftover.add(num);
             }
         }
-        Integer[] arr3 = arr.toArray(new Integer[0]);
-        Arrays.sort(arr3);
 
-        ArrayList<Integer> list = new ArrayList<>();
+        int[] ans = new int[arr1.length];
+        int idx = 0;
 
-        for (int i = 0; i < arr2.length; i++) {
-            for (int j = 0; j < map.get(arr2[i]); j++) {
-                list.add(arr2[i]);
+        // Fill answer in arr2 order
+        for (int key : arr2) {
+            int count = freq.get(key);
+            for (int i = 0; i < count; i++) {
+                ans[idx++] = key;
             }
         }
-        if (arr3.length!=0){
-            for (int i = 0; i < arr3.length; i++) {
-                list.add(arr3[i]);
-            }
-        }
-        int[] fin = new int[arr1.length];
-        int i = 0;
 
-        for(int num : list){
-            fin[i++] = num;
+        // Sort leftovers and append
+        Collections.sort(leftover);
+        for (int val : leftover) {
+            ans[idx++] = val;
         }
-        return fin;
+
+        return ans;
     }
+
 }
