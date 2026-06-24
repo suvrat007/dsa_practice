@@ -3,18 +3,34 @@ package Grind75;
 import java.util.Arrays;
 
 public class SortColours {
-    public void sortColors(int[] nums) {
-        int[] totals = new int[nums.length];
+    public static void main(String[] args) {
+        int[] nums = {1,2,0,2,1,1,0,2};
+        System.out.println(Arrays.toString(sortColors(nums)));
+    }
+    public static int[] sortColors(int[] nums) {
+        int mid = 0;
+        int low = 0;
+        int high = nums.length-1;
 
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i]==0) totals[i]=0;
-            if (nums[i]==1) totals[i]=1;
-            if (nums[i]==2) totals[i]=2;
+        while (mid<=high){
+            if(nums[mid]==0){
+                nums=swap(mid, low, nums);
+                mid++;
+                low++;
+            }else if(nums[mid]==1){
+                mid++;
+            }else{
+                nums=swap(mid,high, nums);
+                high--;
+            }
         }
-        Arrays.sort(totals);
-        for (int i = 0; i < nums.length; i++) {
-            totals[i]=nums[i];
-        }
-        System.out.println(Arrays.toString(nums));
+        return nums;
+    }
+
+    private static int[] swap(int a, int b, int[] arr){
+        int temp = arr[a];
+        arr[a]=arr[b];
+        arr[b]=temp;
+        return arr;
     }
 }
