@@ -5,47 +5,33 @@ import java.util.Arrays;
 
 public class ThreeSum {
     public ArrayList<ArrayList<Integer>> threeSum(int[] nums) {
-        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
-        int i =0,j=i+1,k=j+1;
+        ArrayList<ArrayList<Integer>> ansList = new ArrayList<>();
         Arrays.sort(nums);
 
-        while(k< nums.length){
-            ArrayList<Integer> list = new ArrayList<>();
-            if (nums[i] + nums[j] + nums[k] == 0 && i != j && i != k && j != k){
-                // add triplet to ans array
-                list.add(i);
-                list.add(j);
-                list.add(k);
-            }
-            ans.add(list);
-            k++;
-        }
-        while(j< nums.length-1){
-            ArrayList<Integer> list = new ArrayList<>();
-            if (nums[i] + nums[j] + nums[k] == 0 && i != j && i != k && j != k){
-                // add triplet to list array
-                list.add(i);
-                list.add(j);
-                list.add(k);
-            }
-            // add triplet in list to ans
-            ans.add(list);
+        for (int i = 0; i < nums.length; i++) {
+            if (i>0 && nums[i]==nums[i-1]) continue;
+            int j = i+1;
+            int k = nums.length-1;
 
-            j++;
-        }
-        while(i< nums.length-2){
-            ArrayList<Integer> list = new ArrayList<>();
-            if (nums[i] + nums[j] + nums[k] == 0 && i != j && i != k && j != k){
-                // add triplet to ans array
-                list.add(i);
-                list.add(j);
-                list.add(k);
+            while(j<k){
+                int sum = nums[i]+nums[j]+nums[k];
+                if (sum>0){
+                    k--;
+                } else if (sum<0) {
+                    j++;
+                }else{
+                    ArrayList<Integer> list = new ArrayList<>();
+                    list.add(nums[i]);
+                    list.add(nums[j]);
+                    list.add(nums[k]);
+                    ansList.add(list);
+                    j++;
+                    k--;
+                    while (j<k && nums[j] == nums[j-1]) j++;
+                    while (j<k && nums[k] == nums[k+1]) k++;
+                }
             }
-            ans.add(list);
-            i++;
         }
-
-        return ans;
-
+        return ansList;
     }
 }
