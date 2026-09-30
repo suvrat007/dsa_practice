@@ -2,43 +2,39 @@ package Grind75;
 
 import com.sun.jdi.CharType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 
 public class UncommonWords {
     public String[] uncommonFromSentences(String s1, String s2) {
-        // splitted both senteces on spaces
+        HashMap<String,Integer> map = new HashMap<>();
+
+        ArrayList<String> str = new ArrayList<>();
+
         String[] arr1 = s1.split(" ");
         String[] arr2 = s2.split(" ");
 
-        // added the splitted sentence to one arraylist
-        ArrayList<String> all = new ArrayList<>();
-        all.addAll(Arrays.asList(arr1));
-        all.addAll(Arrays.asList(arr2));
-
-        // sorted the arraylist
-        Collections.sort(all); // collections provides bhot si functionalities....like sorting of arraylists
-
-        ArrayList<String> result = new ArrayList<>();
-        int i = 0;
-
-        // check baju wala element if same or not....if not then all in result arraylist
-        while(i < all.size()){
-            boolean check = true;
-            if (i+1 < all.size() && all.get(i).equals(all.get(i+1))){
-                check=false;
-                i++;
-            }else if(i<all.size()-1 && all.get(i).equals(all.get(i-1))){
-                check=false;
-                i++;
+        for (int i = 0; i < arr1.length; i++) {
+            if (!map.containsKey(arr1[i])) {
+                map.put(arr1[i],1);
+            } else{
+                map.put(arr1[i], map.getOrDefault(arr1[i], 0) + 1);
             }
-            if (check){
-                result.add(all.get(i));
-            }
-            i++;
         }
-        return result.toArray(new String[0]);
 
+        for (int i = 0; i < arr2.length; i++) {
+            if (!map.containsKey(arr2[i])){
+                map.put(arr2[i],1);
+            } else{
+                map.put(arr2[i], map.getOrDefault(arr2[i], 0) + 1);
+            }
+        }
+
+        for (Map.Entry<String, Integer> e : map.entrySet()) {
+            if (e.getValue()==1){
+                str.add(e.getKey());
+            }
+        }
+
+        return str.toArray(new String[0]);
     }
 }
